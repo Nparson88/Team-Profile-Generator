@@ -5,6 +5,7 @@ const employee = require('./lib/employee')
 const manager = require('./lib/manager')
 const engineer = require('./lib/engineer')
 const intern = require('./lib/intern');
+
 // const { type } = require('node:os');
 
 let team = [];
@@ -17,7 +18,7 @@ function newTeam() {
         }
     ])
         .then(function (data) {
-            const name = data.name;
+            const name = data.teamName;
             team.push(name);
             newManager();
         })
@@ -69,7 +70,7 @@ function newManager() {
             const number = team.length + 1
             const name = data.mngName
             const email = data.mngEmail
-            const phone = data.mngphone
+            const phone = data.mngPhone
             const addManager = new manager(name, number, email, phone)
             team.push(addManager)
             newMember()
@@ -101,6 +102,7 @@ const newEngineer = function () {
             const email = data.engEmail
             const github = data.engGithub
             const addEngineer = new engineer(name, number, email, github)
+            console.log(data)
             team.push(addEngineer)
             newMember()
 
