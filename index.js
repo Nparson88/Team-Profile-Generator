@@ -1,5 +1,7 @@
+// declaring what node packages are required
 const inquirer = require('inquirer');
 const fs = require('fs');
+// requiring other files to complete the build
 const style = require('./css/style')
 const employee = require('./lib/employee')
 const manager = require('./lib/manager')
@@ -7,8 +9,9 @@ const engineer = require('./lib/engineer')
 const intern = require('./lib/intern');
 
 // const { type } = require('node:os');
-
+// will be the team after everyone is added
 let team = [];
+// asks for team name and then pushes along input of newManager
 function newTeam() {
     inquirer.prompt([
         {
@@ -23,6 +26,7 @@ function newTeam() {
             newManager();
         })
 }
+// asks if you would like to add a new team member or exit the program
 function newMember() {
     inquirer.prompt([
         {
@@ -32,7 +36,7 @@ function newMember() {
             name: 'newHire'
         }
     ])
-
+// switch case for each selection
         .then(function (data) {
             switch (data.newHire) {
                 case 'Engineer':
@@ -47,6 +51,7 @@ function newMember() {
             }
         })
 }
+// new manager function to add to team, there will only be one 
 function newManager() {
     inquirer.prompt([
         {
@@ -65,18 +70,20 @@ function newManager() {
             name: 'mngPhone'
         },
     ])
-
+//.then function to store data in new const's
         .then(function (data) {
             const number = team.length + 1
             const name = data.mngName
             const email = data.mngEmail
             const phone = data.mngPhone
             const addManager = new manager(name, number, email, phone)
+            // pushes manager into team array
             team.push(addManager)
             newMember()
 
         })
 }
+// function for gathering engineer info
 const newEngineer = function () {
     inquirer.prompt([
         {
@@ -108,6 +115,7 @@ const newEngineer = function () {
 
         })
 }
+// function for gathering intern info
 const newIntern = function () {
     inquirer.prompt([
         {
@@ -137,6 +145,7 @@ const newIntern = function () {
             newMember()
         })
 }
+// begin writing the html, style is imported from the style.js file
 const writeHtml = function () {
     const finishedHtml = []
     const htmlHead = `<!DOCTYPE html>
@@ -189,12 +198,12 @@ const writeHtml = function () {
 </html>`
 
     finishedHtml.push(htmlEnd);
-
+// once html is built out it is then written using fs function
     fs.writeFile("index.html", finishedHtml.join(""), (err) =>
         err ? console.log(err) : console.log('generated new team')
     );
 }
 
-
+// call new team to start the proccess
 newTeam();
 
